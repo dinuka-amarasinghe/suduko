@@ -62,6 +62,19 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View,
                     BOARD_X_AND_Y,
                     thickness
             );
+
+            Rectangle horizontalLine = getLine(
+                    BOARD_PADDING,
+                    xAndY + 64 * index,
+                    thickness,
+                    BOARD_X_AND_Y
+            );
+
+            root.getChildren().addAll(
+                    verticalLine,
+                    horizontalLine
+            );
+            index++;
         }
     }
 
