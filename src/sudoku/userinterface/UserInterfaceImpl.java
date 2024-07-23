@@ -4,6 +4,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
@@ -192,7 +194,12 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
 
     @Override
     public void showDialog(String message) {
+        Alert dialog = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.OK);
+        dialog.showAndWait();
 
+        if(dialog.getResult() == ButtonType.OK) {
+            listener.onDialogClick();
+        }
     }
 
     @Override
