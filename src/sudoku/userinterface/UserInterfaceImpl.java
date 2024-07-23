@@ -3,6 +3,7 @@ package sudoku.userinterface;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
@@ -14,14 +15,11 @@ import sudoku.problemdomain.Coordinates;
 import sudoku.problemdomain.SudokuGame;
 import java.util.HashMap;
 
-public class UserInterfaceImpl implements IUserInterfaceContract.View,
-        EventHandler<KeyEvent> {
+public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHandler<KeyEvent> {
 
     private final Stage stage;
     private final Group root;
-
     private HashMap<Coordinates, SudokuTextField> textFieldCoordinates;
-
     private IUserInterfaceContract.EventListener listener;
 
     private static final double WINDOW_Y = 732;
@@ -141,7 +139,9 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View,
     }
 
     private void drawBackground(Group root) {
-        
+        Scene scene = new Scene(root, WINDOW_X, WINDOW_Y);
+        scene.setFill(WINDOW_BACKGROUND_COLOR);
+        stage.setScene(scene);
     }
 
     @Override
