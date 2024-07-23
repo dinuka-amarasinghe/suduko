@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
@@ -11,6 +12,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import sudoku.constants.GameState;
 import sudoku.problemdomain.Coordinates;
 import sudoku.problemdomain.SudokuGame;
 import java.util.HashMap;
@@ -49,6 +51,7 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
     private void drawGridLines(Group root) {
         int xAndY = 114;
         int index = 0;
+
         while(index < 8) {
             int thickness;
             if(index == 2 || index == 5) {
@@ -92,7 +95,6 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
     private void drawTextFields(Group root) {
         final int xOrigin = 50;
         final int yOrigin = 50;
-
         final int xAndYDelta = 64;
 
         //O(n^2) time complexity
@@ -153,7 +155,6 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
     @Override
     public void updateSquare(int x, int y, int input) {
         SudokuTextField tile = textFieldCoordinates.get(new Coordinates(x, y));
-
         String value = Integer.toString(input);
 
         if (value.equals("0")) {
@@ -165,7 +166,28 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View, EventHand
 
     @Override
     public void updateBoard(SudokuGame game) {
+        for(int xIndex =0; xIndex < 9; xIndex++) {
+            for (int yIndex = 0; yIndex < 9; yIndex++) {
+                TextField tile = textFieldCoordinates.get(new Coordinates(xIndex, yIndex));
+                String value = Integer.toString(game.getCopyOfGridState()[xIndex][yIndex]);
 
+                if(value.equals("0")) {
+                    value = "";
+                }
+
+                tile.setText(value);
+
+                if(game.getGameState() == GameState.NEW) {
+                    if(value.equals("")) {
+                        tile.setStyle("-fx-opacity: 1;");
+                        tile.setDisable(false);
+                    } else {
+                        tile.setStyle("-fx-opacity: 0.8;");
+                        tile.setDisable(true);
+                    }
+                }
+            }
+        }
     }
 
     @Override
