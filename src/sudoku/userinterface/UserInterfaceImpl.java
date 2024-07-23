@@ -1,14 +1,16 @@
 package sudoku.userinterface;
 
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import sudoku.problemdomain.Coordinates;
 import sudoku.problemdomain.SudokuGame;
-
 import java.util.HashMap;
 
 public class UserInterfaceImpl implements IUserInterfaceContract.View,
@@ -89,6 +91,34 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View,
     }
 
     private void drawTextFields(Group root) {
+        final int xOrigin = 50;
+        final int yOrigin = 50;
+
+        final int xAndYDelta = 64;
+
+        //O(n^2) time complexity
+        for(int xIndex = 0; xIndex < 9; xIndex++) {
+            for(int yIndex = 0; yIndex < 9; yIndex++) {
+                int x = xOrigin + xIndex * xAndYDelta;
+                int y = yOrigin + yIndex * xAndYDelta;
+                SudokuTextField tile = new SudokuTextField(xIndex, yIndex);
+                styleSudokuTile(tile, x, y);
+                tile.setOnKeyPressed(this);
+                textFieldCoordinates.put(new Coordinates(xIndex, yIndex), tile);
+                root.getChildren().add(tile);
+            }
+        }
+    }
+
+    private void styleSudokuTile(SudokuTextField tile, double x, double y) {
+        Font numberFont = new Font(32);
+        tile.setFont(numberFont);
+        tile.setAlignment(Pos.CENTER);
+        tile.setLayoutX(x);
+        tile.setLayoutY(y);
+        tile.setPrefHeight(64);
+        tile.setPrefWidth(64);
+        tile.setBackground(Background.EMPTY);
     }
 
     private void drawSudokuBoard(Group root) {
